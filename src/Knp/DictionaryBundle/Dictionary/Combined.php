@@ -6,6 +6,10 @@ namespace Knp\DictionaryBundle\Dictionary;
 
 use Knp\DictionaryBundle\Dictionary;
 
+/**
+ * @template E
+ * @implements Dictionary<E>
+ */
 final class Combined implements Dictionary
 {
     use Traits\Wrapper;
@@ -16,11 +20,14 @@ final class Combined implements Dictionary
     private $name;
 
     /**
-     * @var array
+     * @var array<int, Dictionary<E>>
      */
     private $dictionaries = [];
 
-    public function __construct(string $name, array $dictionaries)
+    /**
+     * @param array<int, Dictionary<E>> $dictionaries
+     */
+    public function __construct(string $name, Dictionary ...$dictionaries)
     {
         $this->dictionary = new Invokable($name, function () use ($dictionaries): array {
             $data = [];
@@ -33,6 +40,12 @@ final class Combined implements Dictionary
         });
     }
 
+    /**
+     * @param mixed[] $array1
+     * @param mixed[] $array2
+     *
+     * @return mixed[]
+     */
     private function merge(array $array1, array $array2): array
     {
         if ($array1 === array_values($array1) && $array2 === array_values($array2)) {

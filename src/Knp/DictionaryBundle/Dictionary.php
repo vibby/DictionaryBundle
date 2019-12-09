@@ -8,6 +8,11 @@ use ArrayAccess;
 use Countable;
 use IteratorAggregate;
 
+/**
+ * @template E
+ * @extends IteratorAggregate<mixed, E>
+ * @extends ArrayAccess<mixed, E>
+ */
 interface Dictionary extends ArrayAccess, Countable, IteratorAggregate
 {
     /**
@@ -28,7 +33,7 @@ interface Dictionary extends ArrayAccess, Countable, IteratorAggregate
     public function getName(): string;
 
     /**
-     * @return mixed[]
+     * @return E[]
      */
     public function getValues(): array;
 
